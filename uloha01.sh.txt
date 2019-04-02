@@ -1,0 +1,42 @@
+#!/bin/sh
+
+if [ "$1" == "--typ" ]; then
+
+if [ ! -e "$2" ]; then
+echo file not found
+exit 1
+elif [ -b "$2" ]; then
+echo block special
+exit 0
+elif [ -c "$2" ]; then 
+echo character special
+exit 0
+elif [ -d "$2" ]; then
+echo directory
+exit 0
+elif [ -f "$2" ]; then
+echo regular file
+exit 0
+elif [ -h "$2" ]; then
+echo symbolic link
+exit 0
+elif [ -S "$2" ]; then
+echo socket
+exit 0
+elif [ -p "$2" ]; then
+echo name pipe
+exit 0
+
+fi
+
+elif [ "$1" == "--help" ]; then
+echo "usage: uloha01.sh [--typ|--help] [file_path]"
+echo "-- typ prints type of the file"
+echo "-- help prints manual page of the script"
+exit 0
+
+elif [ 1 -eq 1 ]; then
+echo Error
+exit 1
+
+fi
