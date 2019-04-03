@@ -5,7 +5,7 @@ if [ "$1" == "--normal" ]; then
 
 shift
 for i in "$@"; do
-echo $i
+echo "$i"
 done
 exit 0
 
