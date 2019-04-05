@@ -3,13 +3,13 @@
 : '
 $# number of arguments
 ${#variable} lenght of variable
-${!variable} 
+${!variable} expands to the names of variables whose names begin with "variable"  
 ${variable:-expression} @variable, or expression if not set
 ${variable:number} slicing (number ~ position)
 ${variable:number:number2} substring (number ~ position, number2 ~ lenght)
 ${variable/expression/text} replaces first occurence of expression with text
 ${variable//expression/text} replaces all occurences of expression with text
-
+yes, variable @ can be used in all mentioned cases
 '
 
 if [ "$1" == "--normal" ]; then
