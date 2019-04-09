@@ -1,0 +1,20 @@
+if [ $1 == "-l" ]
+then
+echo $2 >> temp
+N=$(cut temp -d'-' -f1)
+M=$(cut temp -d'-' -f2)
+head -n $M | tail -n $(($M - $N + 1))
+rm temp
+exit 0
+
+elif [ $1 == "-f" ]
+then
+cat >> temp
+N=$(wc -l | cut -f1)
+A=$(($N * "$2"))
+B=$(($N * "$3"))
+head temp -n $B | tail -n $(($B - $A + 1)) | echo
+rm temp
+exit 0
+
+fi
