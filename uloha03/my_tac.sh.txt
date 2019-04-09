@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ "$1" == "-n" ]; then
+N=$2
+mkdir temp
+cd temp
+tac | split -l $N
+for file in $(pwd)/*
+do
+tac $file >> result
+done
+cat result
+cd ..
+rm -r temp
+exit 0
+
+elif [ 2 -eq 2 ]; then
+tac
+exit 0
+
+fi
