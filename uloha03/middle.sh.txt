@@ -11,11 +11,22 @@ exit 0
 
 elif [ $1 == "-f" ]
 then
-cat >> temp
-N=$(wc -l | cut -f1)
+cat > temp
+N=$(wc temp -l | cut -d' ' -f1)
 A=$(($N * "$2"))
 B=$(($N * "$3"))
-head temp -n $B | tail -n $(($B - $A + 1)) | echo
+head temp -n $B | tail -n $(($B - $A + 1))
+rm temp
+exit 0
+
+elif [ $1 == "-p" ]
+then
+cat > temp
+N=$(wc temp -l | cut -d' ' -f1)
+B=$(($N * "$2"))
+var=$(echo $2 | cut -d'/' -f1)
+A=$(($B - $N / $var))
+head temp -n $B | tail -n $(($B - $A))
 rm temp
 exit 0
 
