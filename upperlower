@@ -27,7 +27,7 @@ if [ "$#" -gt 0 ]; then
                                         if [ -z $onlyStartCase ]; then
                                                         onlyOtherCase="$dir$subdir/$(echo $line | tr $otherCase $case)"
                                                         if [ -e "$onlyOtherCase" ]; then
-                                                                        echo "File $onlyOtherCase already exists"
+                                                                        echo "File $(echo $line | tr $otherCase $case) already exists"
                                                         else
                                                                         mv "$dir$subdir/$line" "$onlyOtherCase"
                                                         fi
@@ -50,7 +50,7 @@ else
                                         if [ -z $onlyStartCase ]; then
                                                         onlyOtherCase="$dir$subdir/$(echo $line | tr $otherCase $case)"
                                                         if [ -e "$onlyOtherCase" ]; then
-                                                                        echo "File $onlyOtherCase already exists"
+                                                                        echo "File $(echo $line | tr $otherCase $case) already exists"
                                                         else
                                                                         mv "$dir$subdir/$line" "$onlyOtherCase"
                                                         fi
