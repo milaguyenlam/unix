@@ -1,0 +1,75 @@
+#!/bin/sh
+
+#function f1 prints everything from the occurence of "<table id=\"search_results\">", which indicates beginning of a table containing needed link
+f1() {
+awk '
+BEGIN {
+FS="<table id=\"search_results\">"
+RS="</html>"
+}
+{print $2"</html>"}
+'
+}
+
+#function f2 prints out contents of a 2nd <tr> element - 1st actual row of a table 
+f2() {
+awk '
+BEGIN {
+FS="<tr"
+RS="</html>"
+}
+{print $3"</html>"}
+'
+}
+
+#function f3 prints out contents of the a <td> element - 5th column of the row
+f3() {
+awk '
+BEGIN {
+FS="<td"
+RS="</html>"
+}
+{print $6"</html>"}
+'
+}
+
+
+#parsing information from a 1st argument - filepath
+filename=$(basename "$1")
+moviename=$(echo "$filename" | sed -E 's/(.*)[Ss][0-9]+[Ee][0-9]+.*/\1/')
+season_no=$(echo "$filename" | sed -E 's/.*[Ss]([0-9]+)[Ee].*/\1/' | sed 's/^0*//')
+episode_no=$(echo "$filename" | sed -E 's/.*[Ss][0-9]+[Ee]([0-9]+).*/\1/' | sed 's/^0*//')
+#counts number of chars (=bytes) in the input file
+filesize=$(wc -c < "$1")
+
+mkdir temp
+cd temp
+
+
+if [ -z "$3" ]
+then
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename"
+elif [ "$3" = "-s" ]
+then
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename/sort-7/asc-0"
+elif [ "$3" = "-r" ]
+then
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename/sort-10/asc-0"
+else
+echo "invalid 3rd argument"
+fi
+
+#downloads html page and extracts the download link
+wget -O htmlpage "$url"
+downloadlink="https://www.opensubtitles.org"$(cat htmlpage | f1 | f2 | f3 | grep "href" | sed -E "s/.*href=\"(.*)\" onclick.*/\1/")
+
+#downloads subtitles and unzips .srt file
+wget -O sub.zip --referer "$url" "$downloadlink"
+unzip sub.zip "*.srt"
+
+#renaming .srt file to "filename.srt" and moves it out of temp directory
+rm htmlpage sub.zip
+mv $(ls) "../$filename.srt"
+
+cd ..
+rmdir temp
