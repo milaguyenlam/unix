@@ -14,26 +14,26 @@ if [ "$#" -gt 0 ]; then
         for i in "$@"; do
 
         dir="$i"
-        if [ -z $(echo $i | grep "/$") ]; then
+        if [ -z $(echo "$i" | grep "/$") ]; then
                         dir="$i/"
         fi
         subdir="."
-        (cd $i && ls -lAR) | grep "^[\.-]" | tr -s " " | cut -f9 -d" " |
+        (cd "$i" && ls -lAR) | grep "^[\.-]" | tr -s " " | cut -f9- -d" " |
         while read line; do
-                        if [ -z $line ]; then
+                        if [ -z "$line" ]; then
                                         :
-                        elif [ -z $(echo $line | grep ":$") ]; then
-                                        onlyStartCase=$( echo $line | grep $case)
-                                        if [ -z $onlyStartCase ]; then
+                        elif [ -z $(echo "$line" | grep ":$") ]; then
+                                        onlyStartCase=$( echo "$line" | grep $case)
+                                        if [ -z "$onlyStartCase" ]; then
                                                         onlyOtherCase="$dir$subdir/$(echo $line | tr $otherCase $case)"
                                                         if [ -e "$onlyOtherCase" ]; then
-                                                                        echo "File $(echo $line | tr $otherCase $case) already exists"
+                                                                        echo "File $(echo "$line" | tr $otherCase $case) already exists"
                                                         else
                                                                         mv "$dir$subdir/$line" "$onlyOtherCase"
                                                         fi
                                         fi
                         else
-                                        subdir="$( echo $line | sed -E 's/^\.(.*)\:$/\1/g' )"
+                                        subdir="$( echo "$line" | sed -E 's/^\.(.*)\:$/\1/g' )"
                         fi
         done
 
@@ -41,22 +41,22 @@ if [ "$#" -gt 0 ]; then
 else
         dir="./"
         subdir="."
-        ls -lAR | grep "^[\.-]" | tr -s " " | cut -f9 -d" " |
+        ls -lAR | grep "^[\.-]" | tr -s " " | cut -f9- -d" " |
         while read line; do
-                        if [ -z $line ]; then
+                        if [ -z "$line" ]; then
                                         :
-                        elif [ -z $(echo $line | grep ":$") ]; then
-                                        onlyStartCase=$( echo $line | grep $case)
-                                        if [ -z $onlyStartCase ]; then
-                                                        onlyOtherCase="$dir$subdir/$(echo $line | tr $otherCase $case)"
+                        elif [ -z $(echo "$line" | grep ":$") ]; then
+                                        onlyStartCase=$( echo "$line" | grep $case)
+                                        if [ -z "$onlyStartCase" ]; then
+                                                        onlyOtherCase="$dir$subdir/$(echo "$line" | tr $otherCase $case)"
                                                         if [ -e "$onlyOtherCase" ]; then
-                                                                        echo "File $(echo $line | tr $otherCase $case) already exists"
+                                                                        echo "File $(echo "$line" | tr $otherCase $case) already exists"
                                                         else
                                                                         mv "$dir$subdir/$line" "$onlyOtherCase"
                                                         fi
                                         fi
                         else
-                                        subdir="$( echo $line | sed -E 's/^\.(.*)\:$/\1/g' )"
+                                        subdir="$( echo "$line" | sed -E 's/^\.(.*)\:$/\1/g' )"
                         fi
         done
 fi
