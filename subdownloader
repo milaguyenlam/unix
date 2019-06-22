@@ -48,13 +48,13 @@ cd temp
 
 if [ -z "$3" ]
 then
-url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename"
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/subformat-srt/moviename-$moviename"
 elif [ "$3" = "-s" ]
 then
-url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename/sort-7/asc-0"
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/subformat-srt/moviename-$moviename/sort-7/asc-0"
 elif [ "$3" = "-r" ]
 then
-url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/moviename-$moviename/sort-10/asc-0"
+url="https://www.opensubtitles.org/en/search/sublanguageid-$2/season-$season_no/episode-$episode_no/moviebytesize-$filesize/subformat-srt/moviename-$moviename/sort-10/asc-0"
 else
 echo "invalid 3rd argument"
 fi
