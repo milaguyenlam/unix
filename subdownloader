@@ -59,17 +59,17 @@ else
 echo "invalid 3rd argument"
 fi
 
-#downloads html page and extracts the download link
-wget -O htmlpage "$url"
-downloadlink="https://www.opensubtitles.org"$(cat htmlpage | f1 | f2 | f3 | grep "href" | sed -E "s/.*href=\"(.*)\" onclick.*/\1/")
-
+if [ -z "$downloadlink" ]; then
+echo "Haven't found any subtitles"
+rm htmlpage
+else
 #downloads subtitles and unzips .srt file
-wget -O sub.zip --referer "$url" "$downloadlink"
+wget -O sub.zip --referer "$url" "https://www.opensubtitles.org$downloadlink"
 unzip sub.zip "*.srt"
-
 #renaming .srt file to "filename.srt" and moves it out of temp directory
 rm htmlpage sub.zip
 mv $(ls) "../$filename.srt"
+fi
 
 cd ..
 rmdir temp
