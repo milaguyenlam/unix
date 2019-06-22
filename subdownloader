@@ -60,7 +60,7 @@ echo "invalid 3rd argument"
 fi
 
 if [ -z "$downloadlink" ]; then
-echo "Haven't found any subtitles"
+echo "Haven't found any suitable subtitles"
 rm htmlpage
 else
 #downloads subtitles and unzips .srt file
