@@ -33,6 +33,13 @@ RS="</html>"
 '
 }
 
+if [ "$1" = "--help" ]; then
+        echo "Usage: subdownloader.sh [FILE] [LAN_CODE] [args]"
+        echo "LAN_CODE should be in ISO 639-2/B code"
+        echo "-s choose most downloaded subtitle"
+        echo "-r choose best rated subtitle"
+        exit 1
+fi
 
 #parsing information from a 1st argument - filepath
 filename=$(basename "$1")
